@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "bundle:order-list": "cat dist/order-list/{polyfills,runtime,main}.js > dist/order-list/package.js",
+    "bundle:material-list": "cat dist/material-list/{polyfills,runtime,main}.js > dist/material-list/package.js",
+    "build:order-list": "ng build --project order-list --output-hashing none && npm run bundle:order-list",
+    "build:material-list": "ng build --project material-list --output-hashing none && npm run bundle:material-list"
   },
   "private": true,
   "dependencies": {
@@ -14,10 +18,12 @@
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
     "@angular/core": "^14.1.0",
+    "@angular/elements": "^14.2.11",
     "@angular/forms": "^14.1.0",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "ngx-build-plus": "^7.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
