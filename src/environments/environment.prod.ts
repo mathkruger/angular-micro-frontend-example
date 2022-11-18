@@ -1,13 +1,15 @@
 export const environment = {
   production: true,
-  microApps: {
-    orderList: {
-      url: "http://localhost:3000/order-list/package.js",
-      tagName: "micro-app-order-list"
+  microApps: [
+    {
+      tagName: "micro-app-order-list",
+      url: "http://localhost:5000/order-list/package.js",
+      autoRender: true
     },
-    materialList: {
-      url: "http://localhost:3000/material-list/package.js",
-      tagName: "micro-app-material-list"
-    },
-  }
+    {
+      tagName: "micro-app-material-list",
+      url: "http://localhost:5000/material-list/package.js",
+      autoRender: true
+    }
+  ]
 };

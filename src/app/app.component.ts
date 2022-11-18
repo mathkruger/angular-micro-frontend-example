@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { MicroAppsService } from './services/micro-apps.service';
 
 @Component({
   selector: 'app-root',
@@ -7,30 +8,12 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  microApps: any = {};
   containerId = "micro-apps";
 
+  constructor(private microAppsService: MicroAppsService) {}
+
   ngOnInit(): void {
-    this.microApps = environment.microApps;
-
-    this.loadMicroApps();
-    this.addMicroAppsToView();
+    this.microAppsService.load();
+    this.microAppsService.renderAll(this.containerId);
   }
-
-  loadMicroApps() {
-    Object.keys(this.microApps).forEach((key: string) => {
-      const script = document.createElement("script");
-      script.src = this.microApps[key].url;
-      document.body.appendChild(script);
-    });
-  }
-
-  addMicroAppsToView() {
-    Object.keys(this.microApps).forEach((key: string) => {
-      const microApp = document.createElement(this.microApps[key].tagName);
-      document.getElementById(this.containerId)?.appendChild(microApp);
-    });
-  }
-
 }
