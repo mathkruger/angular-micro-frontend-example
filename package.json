@@ -7,8 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "bundle:order-list": "cat dist/order-list/{polyfills,runtime,main}.js > dist/order-list/package.js",
-    "bundle:material-list": "cat dist/material-list/{polyfills,runtime,main}.js > dist/material-list/package.js",
+    "bundle:order-list": "node bundle.js order-list",
+    "bundle:material-list": "node bundle.js material-list",
     "build:order-list": "ng build --project order-list --output-hashing none && npm run bundle:order-list",
     "build:material-list": "ng build --project material-list --output-hashing none && npm run bundle:material-list"
   },
@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "concat-files": "^0.1.1",
     "ngx-build-plus": "^7.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
