@@ -1,19 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { MicroAppsService } from './services/micro-apps.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
-  containerId = "micro-apps";
-
-  constructor(private microAppsService: MicroAppsService) {}
-
-  ngOnInit(): void {
-    this.microAppsService.load();
-    this.microAppsService.renderAll(this.containerId);
-  }
+export class AppComponent {
 }
