@@ -13,7 +13,7 @@ export const environment = {
     },
     {
       tagName: "micro-app-homepage",
-      url: "http://localhost:5000/homepage/package.js",
+      url: "https://matheuskrugerdev.cf/angular-micro-frontend-example/homepage/package.js",
       autoRender: true
     }
   ]
