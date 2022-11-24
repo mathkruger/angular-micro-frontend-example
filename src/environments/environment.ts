@@ -10,6 +10,11 @@ export const environment = {
       tagName: "micro-app-material-list",
       url: "https://matheuskrugerdev.cf/angular-micro-frontend-example/material-list/package.js",
       autoRender: true
+    },
+    {
+      tagName: "micro-app-homepage",
+      url: "http://localhost:5000/homepage/package.js",
+      autoRender: true
     }
   ]
 };

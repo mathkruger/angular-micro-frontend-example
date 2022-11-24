@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build Projects
-        run: npm run build:order-list && npm run build:material-list
+        run: npm run build:micro-apps
       - name: Archive build
         if: success()
         uses: actions/upload-artifact@v1
