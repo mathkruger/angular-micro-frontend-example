@@ -1,3 +1,42 @@
-<h2>Materials</h2>
+<h2>Materials list</h2>
 
-<img src="https://noticiasdatv.uol.com.br/media/_versions/artigos/fausto-silva-domingao-do-faustao-24-1-2021-reproducao-tv-globo_fixed_large.jpg" alt="">
+<div class="card">
+    <div class="card-body">
+        <p>
+            <strong>Filters</strong>
+        </p>
+
+        <form class="row row-cols-lg-auto g-3 align-items-center">
+            <div class="col-12">
+                <label class="visually-hidden" for="inlineFormSelectPref">Name</label>
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Name">
+            </div>
+
+            <div class="col-12">
+                <label class="visually-hidden" for="inlineFormInputGroupUsername">Warehouse</label>
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Warehouse</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of materials; index as i">
+            <td>{{ item.id }} </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.warehouse }}</td>
+        </tr>
+    </tbody>
+</table>
