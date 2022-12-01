@@ -1,27 +1,101 @@
-# MfRoot
+# Micro frontend em Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+Esse projeto é um exemplo de como aplicar uma arquitetura de Micro Frontend em Angular. O projeto principal desse workspace é o orquestrador dos microapps, que estão na pasta `projetcs` (apenas por questões de comodidade, já que os microapps poderiam estar em qualquer repositório).
 
-## Development server
+## Como executar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+``` bash
+npm install
+npm build:micro-apps
+npm serve:micro-apps
+# Em outro terminal
+ng s
+```
 
-## Code scaffolding
+## Como o projeto funciona
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Microapps
 
-## Build
+Os microapps são construídos com base em Web Components. Ao invés de fazer o boostrap do `AppComponent`, como fazemos em uma aplicação tradicional Angular, estamos registrando esses apps como Web Components, para que possam ser usados em qualquer ambiente. Para fazer isso, estamos utilizando a biblioteca `@angular/elements`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+``` typescript
+// Exemplo de um módulo principal de um microapp
+@NgModule({
+  declarations: [		
+    AppComponent
+   ],
+  imports: [
+    BrowserModule
+  ],
+  providers: []
+})
+export class AppModule {
+  constructor(private injector: Injector) {}
+  
+  ngDoBootstrap() {
+    const elem = createCustomElement(AppComponent, { injector: this.injector });
+    customElements.define('custom-web-component', elem);
+  }
+}
+```
+Após o build de um projeto angular, normalmente, ele gera 3 arquivos javascript que são importados no `index.html` do projeto. Por questão de conveniência ao utilizar esses microapps no orquestrador, é necessário juntar esses arquivos em um só, poderiamos usar uma biblioteca pra isso, mas achei mais fácil criar um bundler simples eu mesmo. Esse arquivo é o `bundle.js` e para utilizá-lo é só executá-lo passando o nome do microapp que você deseja fazer o bundle. Isso já está sendo feito quando utilizamos os scripts de build dentro do `package.json`.
 
-## Running unit tests
+### Orquestrador
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Neste exemplo, estamos importando o bundle dos microapps em tags `script`. Para automatizar esse processo, criei um service que automatiza esse processo. Só precisamos definir nos arquivos `environment` quais microapps queremos que o orquestrador importe.
 
-## Running end-to-end tests
+``` typescript
+// Exemplo de environment utilizado nesse orquestrador
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+export const environment = {
+  microApps: [
+    {
+      tagName: "micro-app-page-one",
+      url: "http://localhost:5000/package.js",
+      autoRender: true
+    },
+    {
+      tagName: "micro-app-material-page-two",
+      url: "http://localhost:5001/package.js",
+      autoRender: true
+    },
+    {
+      tagName: "micro-app-button",
+      url: "http://localhost:5002/package.js",
+      autoRender: false
+    }
+  ]
+};
+```
 
-## Further help
+Vamos entrar em detalhes o que cada campo dessa configuração está fazendo:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- `tagName` - É a tag registrada como Web Component no `ngDoBootstrap` do microapp, é a tag que será utilizada no HTML do orquestrador.
+- `url` - Onde o microapp está hospedado. Ele pode estar em qualquer lugar.
+- `autoRender` - É uma configurações que diz se esse microapp será renderizado automaticamente no projeto assim que ele iniciar.
+
+O service `micro-apps.service` obtem essas configurações e as utiliza para importar/renderizar os microapps. No nosso exemplo, cada microapp é uma página, ou seja, ela é renderizada automaticamente mas o componente de sua rota só é renderizado quando estamos na rota correta, por isso, criei o componente `micro-apps-router-outlet` que chama o `micro-apps.service` e importa/renderiza os microapps de acordo com a configuração fornecida no `environment`.
+
+Outra configuração que precisamos fazer no módulo principal do nosso orquestrador é para permitir que essas tags criadas nos microapps sejam utilizadas sem erros.
+
+``` typescript
+// Módulo principal do orquestrador
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MicroAppsRouterOutletComponent,
+    ...
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+A configuração `schemas:[CUSTOM_ELEMENTS_SCHEMA]` permite que os Web Components sejam utilizados.
+
