@@ -11,10 +11,12 @@
     "bundle:order-list": "node bundle.js order-list",
     "bundle:material-list": "node bundle.js material-list",
     "bundle:homepage": "node bundle.js homepage",
+    "bundle:header": "node bundle.js header",
+    "build:header": "ng build --project header --output-hashing none && npm run bundle:header",
     "build:order-list": "ng build --project order-list --output-hashing none && npm run bundle:order-list",
     "build:material-list": "ng build --project material-list --output-hashing none && npm run bundle:material-list",
     "build:homepage": "ng build --project homepage --output-hashing none && npm run bundle:homepage",
-    "build:micro-apps": "npm run build:homepage && npm run build:order-list && npm run build:material-list"
+    "build:micro-apps": "npm run build:homepage && npm run build:order-list && npm run build:material-list && npm run build:header"
   },
   "private": true,
   "dependencies": {

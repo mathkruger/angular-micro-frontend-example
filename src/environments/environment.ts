@@ -15,6 +15,16 @@ export const environment = {
       tagName: "micro-app-homepage",
       url: "http://localhost:5000/homepage/package.js",
       autoRender: true
-    }
+    },
+    {
+      tagName: "micro-app-header",
+      url: "http://localhost:5000/header/package.js",
+      autoRender: false
+    },
+    // {
+    //   tagName: "micro-app-footer",
+    //   url: "http://localhost:5001/footer.js",
+    //   autoRender: false
+    // }
   ]
 };
